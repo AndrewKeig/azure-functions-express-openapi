@@ -1,0 +1,70 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: Tennant users
+  description: Tennant users api
+  termsOfService: http://swagger.io/terms/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: /v1
+paths:
+  /tenants/users:
+    post:
+      description: get tennant user
+      operationId: getTennantUsers
+      requestBody:
+        description: Pet to add to the store
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TenantUserRequest'
+      responses:
+        '200':
+          description: tenant user response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantUser'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    TenantUserRequest:
+      required:
+        - limit
+        - searchText
+      properties:
+        limit:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 20
+        searchText:
+          type: string
+    TenantUser:
+      required:
+        - id
+        - name
+      properties:
+        id:
+          readOnly: true
+          type: number
+        name:
+          type: string
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
